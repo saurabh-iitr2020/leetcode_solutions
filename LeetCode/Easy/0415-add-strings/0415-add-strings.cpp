@@ -45,12 +45,13 @@ public:
             int d2 = j>=0 ? num2[j]-'0' : 0;
 
             int curr = d1 + d2 + carry;
-            ans = to_string(curr%10)+ans;
+            ans.append(to_string(curr%10));
             carry = curr/10;
 
             i--;
             j--;
         }
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
