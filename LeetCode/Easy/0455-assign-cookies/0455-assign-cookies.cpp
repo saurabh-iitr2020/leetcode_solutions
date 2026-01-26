@@ -5,8 +5,9 @@ public:
         sort(s.begin(), s.end());
 
         int i=0, j=0, ans=0;
-        while(i<g.size()){
-            while(j<s.size() && g[i]>s[i]){
+        while(i<g.size()&&j<s.size()){
+            // cout<<g[i]<<" "
+            while(j<s.size() && g[i]>s[j]){
                 j++;
             }
             if(j<s.size()){
