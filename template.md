@@ -1,6 +1,9 @@
 # Proper Documentation Template for LeetCode Solutions
 
-> **File Name**: `solve.readme` (to be created in each problem folder)
+TODO:
+> **File Name**: Create new `solve.md` (for each problem folder) -> `solve.md` is for code documentation and implementation details.
+> `.cpp` files can be modified to fix imports and adding comments, updating main function for testing, but the core solution code should not be changed.
+> Dont touch existing `README.md` files, they are for problem statement and `*cpp` for solutions.
 
 ---
 
@@ -265,7 +268,141 @@ Use a concrete example to trace through the algorithm:
 
 ---
 
-## 11. **Revision Checklist** (For Future Study)
+## 11. **Code Comments & Documentation Guidelines**
+
+### Required Comments for Each Approach
+
+**Function-Level Comments:**
+
+```cpp
+/**
+ * @brief Approach 1: Sliding Window + HashMap
+ * 
+ * @param s Input string to find longest substring without repeating characters
+ * @return int Maximum length of substring without repeating characters
+ * 
+ * Time Complexity: O(n) - Each character visited at most twice
+ * Space Complexity: O(min(m, n)) - HashMap stores at most unique characters
+ * 
+ * Key Idea: Use two pointers (left, right) to maintain a window ensuring
+ *           no duplicate characters. When duplicate found, shrink from left.
+ */
+int lengthOfLongestSubstring(string s) {
+    // Implementation here
+}
+```
+
+**Inline Comments - Required:**
+
+1. **Initialization comments** - Explain purpose of each variable
+
+   ```cpp
+   unordered_map<char, int> charIndex;  // Stores last seen index of each character
+   int maxLength = 0;                    // Tracks maximum window size encountered
+   int left = 0;                         // Left pointer of sliding window
+   ```
+
+2. **Logic comments** - Explain non-obvious decisions
+
+   ```cpp
+   // If character exists and is within current window, update left pointer
+   if (charIndex.find(ch) != charIndex.end() && charIndex[ch] >= left) {
+       left = charIndex[ch] + 1;  // Move left just past the duplicate
+   }
+   ```
+
+3. **State update comments** - Explain why updates happen
+
+   ```cpp
+   // Update maximum length whenever we expand the window
+   maxLength = max(maxLength, right - left + 1);
+   ```
+
+4. **Edge case comments** - Mark special handling
+
+   ```cpp
+   // Edge case: Empty string returns 0
+   if (s.empty()) return 0;
+   ```
+
+### Comment Standards
+
+- Every loop should have a purpose comment
+- Every if/else branch explaining the condition
+- Every data structure explaining its purpose
+- All non-trivial calculations should be explained
+- Avoid obvious comments (e.g., `i++` doesn't need a comment)
+
+### Example Well-Commented Code Structure
+
+```cpp
+class Solution {
+public:
+    /**
+     * Approach: Sliding Window with HashMap
+     * Time: O(n), Space: O(min(m, n))
+     */
+    int lengthOfLongestSubstring(string s) {
+        // Edge case: Empty string has no substring
+        if (s.empty()) return 0;
+        
+        // Initialize sliding window variables
+        int left = 0, maxLength = 0;
+        unordered_map<char, int> lastSeen;  // Character -> last seen index
+        
+        // Expand window with right pointer
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s[right];
+            
+            // If duplicate within window, move left pointer past it
+            if (lastSeen.count(currentChar) && lastSeen[currentChar] >= left) {
+                left = lastSeen[currentChar] + 1;
+            }
+            
+            // Update character's latest position
+            lastSeen[currentChar] = right;
+            
+            // Track the maximum valid window size
+            maxLength = max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+};
+```
+
+---
+
+## 12. **TODO: Input Validation & Edge Cases**
+
+### C++ Main function requirements for Each Approach
+
+- add all required imports
+- Add main function for testing all approaches with example cases
+- fix all static errors in *.cpp (e.g., missing headers, namespace issues)
+- sample for reference:
+
+```cpp
+int main()
+{
+    Solution sol;
+
+    // Test Case 1: Simple case with two squares
+    vector<vector<int>> squares1 = {{0, 0, 2}, {0, 2, 2}};
+    cout << "Input: " << squares1 <<endl;
+    double result1 = sol.separateSquares(squares1);
+    cout<< "\nApproach 1 Result: " << result1 << endl;
+
+    // same with Approach 2: 
+    // ...
+
+    // ... other test cases examples
+
+    return 0;
+}
+```
+
+## 13. **Revision Checklist** (For Future Study)
 
 - [ ] Understand the problem completely
 - [ ] Identify the pattern/technique needed (sliding window, BFS, DP, etc.)
