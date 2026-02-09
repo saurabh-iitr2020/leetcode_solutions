@@ -12,6 +12,7 @@
  */
 class Solution {
 public:
+    // inOrder for BST is sorted
     void inOrder(TreeNode* root, vector<int>& v) {
         if (!root) {
             return;
@@ -20,6 +21,9 @@ public:
         v.push_back(root->val);
         inOrder(root->right, v);
     }
+
+    // Use sorted nodes then pick root from mid and build left and right tree
+    // with recusion
     TreeNode* buildTree(vector<int>& v, int start, int end) {
         if (start > end)
             return NULL;
@@ -34,7 +38,9 @@ public:
     TreeNode* balanceBST(TreeNode* root) {
         vector<int> nodes;
         inOrder(root, nodes);
+        // it looks like inorder is already sorted as its BST
         // sort(nodes.begin(), nodes.end());
+        // convert BST to Balanced BST
         TreeNode* newRoot = buildTree(nodes, 0, nodes.size() - 1);
         return newRoot;
     }
